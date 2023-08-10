@@ -40,7 +40,7 @@ router.get('/getCookie', async (req: Request, res: Response) => {
 
   const options = {
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Cookie expires in 30 days
-    sameSite: 'none',
+    sameSite: 'none' as const,
     secure: true
   };
 
@@ -52,8 +52,8 @@ router.get('/getCookie', async (req: Request, res: Response) => {
  * Obtain player data by cookie
  */
 router.get('/getPlayerByCookie', getPlayer, (req: Request, res: Response) => {
-  console.log('Returning: ', res.player);
-  res.json(res.player);
+  console.log('Returning: ', res.locals.player);
+  res.json(res.locals.player);
 })
 
 /**
@@ -84,7 +84,7 @@ router.patch('/', (req: Request, res: Response) => {
  * Placed here as it matches all paths before it
  */
 router.get('/:id', getPlayer, (req: Request, res: Response) => {
-  res.send(res.player.name);
+  res.send(res.locals.player.name);
 });
 
 router.delete('/:id', (req: Request, res: Response) => {
@@ -113,7 +113,7 @@ async function getPlayer(req: Request, res: Response, next: any) {
     return res.status(500).json({ message: err.message });
   }
 
-  res.player = player;
+  res.locals.player = player;
   next();
 }
 

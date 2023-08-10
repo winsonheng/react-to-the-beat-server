@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 const router = express.Router();
-const Leaderboard = require('../models/leaderboard');
+const Leaderboard = require('../schemas/leaderboard');
 
 router.get('/:userid', (req: Request, res: Response) => {
   console.log(req.params.id);

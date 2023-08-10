@@ -2,20 +2,17 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 
+const app: Express = express();
+app.use(express.json());
+
 /**
  * Initialize environment variables based on environment
- * NOTE: Change NODE_ENV in .env to prod when deploying
  */
-console.log(process.env.NODE_ENV)
-if (process.env.NODE_ENV === 'prod') {
+if (app.get('env') === 'production') {
   dotenv.config({ path: '.env.production.local' });
 } else {
   dotenv.config({ path: '.env.development.local' });
 }
-
-const app: Express = express();
-
-app.use(express.json());
 
 // Set up rate limiter: maximum of twenty requests per minute
 const RateLimit = require("express-rate-limit");
